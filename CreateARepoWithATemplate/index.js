@@ -9,6 +9,7 @@ module.exports = async function(context, req) {
     let repoOwner = req.body.repoOwner;
     let repoName = req.body.repoName;
     let templateName = req.body.templateName;
+    let templateOwner = req.body.templateOwner;
 
     const {
         data: { login },
@@ -18,10 +19,9 @@ module.exports = async function(context, req) {
 
     try {
         const { data } = await octokit.rest.repos.createUsingTemplate({
-            // replace the owner and email with your own details
             owner: repoOwner,
-            name: repoName,
-            template_owner: repoOwner,
+            name: repoName.replace(' ', '-'),
+            template_owner: templateOwner,
             template_repo: templateName,
             private: true,
             include_all_branches: true
